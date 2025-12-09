@@ -1407,7 +1407,9 @@ body {
      }
 
      .header .fa-bars {
-         display: block;
+         display: block !important;
+         z-index: 1001;
+         visibility: visible;
      }
 
      .header .navbar {
@@ -1420,13 +1422,25 @@ body {
          z-index: 1000;
          border-top: .1rem solid rgba(0, 0, 0, .3);
         padding: 2rem 0;
-         transition: top 0.3s ease;
+         transition: top 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+         display: block !important;
+         visibility: hidden;
+         opacity: 0;
+         pointer-events: none;
+     }
+
+     .header .navbar.nav-toggle {
+         visibility: visible;
+         opacity: 1;
+         pointer-events: auto;
      }
 
      .header .navbar ul {
          height: 100%;
          width: 100%;
          flex-flow: column;
+         display: flex !important;
+         visibility: inherit;
      }
 
      .header .navbar ul li {
@@ -1436,6 +1450,13 @@ body {
      .header .navbar ul li a {
          font-size: 2.5rem;
          color: var(--black);
+         text-shadow: none !important;
+         transition: color 0.3s ease;
+     }
+
+     .header .navbar ul li a:hover {
+         color: var(--dark-green);
+         text-shadow: none !important;
      }
 
      .header .fa-time {
