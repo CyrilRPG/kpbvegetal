@@ -130,6 +130,9 @@ body {
      top: 0;
      left: 0;
      z-index: 100;
+     background: rgba(0, 0, 0, 0.2);
+     backdrop-filter: blur(5px);
+     transition: background 0.3s ease;
  }
 
  /* logo name */
@@ -140,12 +143,14 @@ body {
     align-items: center;
     gap: 0.5rem;
     font-weight: 600;
+    text-shadow: 0 .2rem .5rem rgba(0, 0, 0, 0.8), 0 0 1rem rgba(0, 0, 0, 0.6);
 }
 
 .header .logo img {
     height: 4.5rem;
     width: auto;
     object-fit: contain;
+    filter: drop-shadow(0 .2rem .5rem rgba(0, 0, 0, 0.8));
  }
 
  /* navbar link  */
@@ -165,10 +170,13 @@ body {
     color: var(--white);
     font-weight: 400;
     text-transform: none;
+    text-shadow: 0 .2rem .5rem rgba(0, 0, 0, 0.8), 0 0 1rem rgba(0, 0, 0, 0.6);
+    transition: color 0.3s ease;
 }
 
 .header .navbar ul li a:hover {
     color: var(--light-green);
+    text-shadow: 0 .2rem .5rem rgba(0, 0, 0, 0.9), 0 0 1.5rem rgba(76, 175, 80, 0.8);
  }
 
  .header .fa-bars {
@@ -176,6 +184,7 @@ body {
      cursor: pointer;
      font-size: 3rem;
      display: none;
+     text-shadow: 0 .2rem .5rem rgba(0, 0, 0, 0.8), 0 0 1rem rgba(0, 0, 0, 0.6);
  }
 
  /* header section end  */
@@ -198,25 +207,39 @@ body {
      overflow: hidden !important;
  }
 
-/* Filtre vert retiré - image home.png visible sans overlay */
+/* Overlay sombre pour améliorer le contraste */
+.home::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+ }
 
  .home .banner {
     color: var(--white);
      font-size: 5rem;
-    text-shadow: 0 .3rem .8rem rgba(0, 0, 0, .8), 0 0 1rem rgba(0, 0, 0, .5);
+    text-shadow: 0 .4rem 1rem rgba(0, 0, 0, 1), 0 .2rem .5rem rgba(0, 0, 0, 0.9), 0 0 2rem rgba(0, 0, 0, 0.8);
     font-weight: 600;
     margin-bottom: 2rem;
     text-transform: none;
+    position: relative;
+    z-index: 2;
  }
 
  .home .slogan {
     color: var(--white);
      font-size: 2.5rem;
      font-weight: 400;
-    text-shadow: 0 .2rem .6rem rgba(0, 0, 0, .8), 0 0 1rem rgba(0, 0, 0, .5);
+    text-shadow: 0 .3rem .8rem rgba(0, 0, 0, 1), 0 .2rem .5rem rgba(0, 0, 0, 0.9), 0 0 1.5rem rgba(0, 0, 0, 0.8);
     margin-bottom: 3rem;
     max-width: 80rem;
     text-transform: none;
+    position: relative;
+    z-index: 2;
  }
 
  /* home btn  */
@@ -257,8 +280,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(255, 255, 255, 0.2);
-    border: 0.2rem solid var(--white);
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 0.3rem solid var(--white);
     border-radius: 50%;
     color: var(--white);
     font-size: 2rem;
@@ -266,6 +289,8 @@ body {
     transition: all 0.3s ease;
     z-index: 10;
     animation: bounce 2s infinite 0.5s;
+    text-shadow: 0 .2rem .5rem rgba(0, 0, 0, 0.8);
+    box-shadow: 0 .3rem .8rem rgba(0, 0, 0, 0.5);
     will-change: transform;
     backface-visibility: hidden;
 }
@@ -493,6 +518,9 @@ body {
     background-color: var(--dark-green);
     position: relative;
     padding: 2rem 0 8rem 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
  }
 
  /* team card heading  */
@@ -504,57 +532,134 @@ body {
     background-color: var(--white);
  }
 
- /* team images  */
- .team .row .card .images img {
-     height: 24rem;
-     width: 25rem;
+ /* Réalisations carousel container */
+ .realisations-container {
+     position: relative;
+     width: 100%;
+     max-width: 120rem;
+     margin: 0 auto;
+     padding: 0 6rem;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+ }
+
+ /* Réalisations carousel */
+ .realisations-carousel {
+     width: 100%;
+     overflow: hidden;
+     position: relative;
+ }
+
+ .realisations-track {
+     display: flex;
+     transition: transform 0.5s ease;
+     gap: 4rem;
+     padding: 0;
+     margin: 0;
+ }
+
+ /* Card styles pour réalisations */
+ .team .card {
+     min-width: calc((100% - 4rem) / 2);
+     width: calc((100% - 4rem) / 2);
+     max-width: 45rem;
+     height: auto;
+     background-color: var(--white);
+     text-align: center;
+     position: relative;
+     overflow: hidden;
      border-radius: .5rem;
-    border: .5rem solid var(--white);
+     flex-shrink: 0;
+     box-sizing: border-box;
+ }
+
+ .team .card .images {
+     width: 100%;
+     padding-top: 55%; /* Ratio plus petit pour desktop - section visible */
+     position: relative;
+     overflow: hidden;
+ }
+
+ .team .card .images img {
+     position: absolute;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     border-radius: .5rem .5rem 0 0;
+     border: .5rem solid var(--white);
      box-shadow: 0 0 .5rem rgba(0, 0, 0, .3);
      object-fit: cover;
  }
 
- .team .row {
-     display: flex;
-     align-items: center;
-     justify-content: center;
-     flex-wrap: wrap;
+ .team .card .info {
+     padding: 2.5rem;
  }
 
- .team .row .card {
-     height: 35rem;
-     width: 25rem;
-    background-color: var(--white);
-     text-align: center;
-     margin: 7rem 2rem;
-     position: relative;
-     overflow: hidden;
-     border-radius: .5rem;
- }
-
- .team .row .card .info h2 {
-     font-size: 2rem;
+ .team .card .info h2 {
+     font-size: 2.2rem;
     color: var(--dark-green);
     text-transform: none;
     font-weight: 600;
+    margin-bottom: 1rem;
  }
 
- .team .row .card .info p {
+ .team .card .info p {
      font-size: 1.8rem;
      color: var(--black);
     text-transform: none;
  }
 
- .team .row .card .info .icons a {
-     font-size: 2rem;
-     padding: 0 1rem;
-     margin-top: 1rem;
-     color: var(--black);
+ .team .card .info p i {
+     color: var(--dark-green);
+     margin-right: 0.5rem;
  }
 
- .team .row .card .info .icons a:hover {
-    color: var(--dark-green);
-}
+ /* Boutons de navigation carousel */
+ .carousel-btn {
+     position: absolute;
+     top: 50%;
+     transform: translateY(-50%);
+     width: 5rem;
+     height: 5rem;
+     background-color: rgba(255, 255, 255, 0.9);
+     border: 0.3rem solid var(--white);
+     border-radius: 50%;
+     color: var(--dark-green);
+     font-size: 2rem;
+     cursor: pointer;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     z-index: 10;
+     transition: all 0.3s ease;
+     box-shadow: 0 .3rem .8rem rgba(0, 0, 0, 0.3);
+ }
+
+ .carousel-btn:hover {
+     background-color: var(--white);
+     transform: translateY(-50%) scale(1.1);
+     box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.4);
+ }
+
+ .carousel-btn-left {
+     left: 2rem;
+ }
+
+ .carousel-btn-right {
+     right: 2rem;
+ }
+
+ .carousel-btn:disabled {
+     opacity: 0.5;
+     cursor: not-allowed;
+ }
+
+ .carousel-btn:disabled:hover {
+     transform: translateY(-50%);
+     background-color: rgba(255, 255, 255, 0.9);
+ }
 
 /* team card section end  */
 
@@ -918,22 +1023,56 @@ body {
 
 .lightbox-content {
     position: relative;
-    max-width: 98%;
-    max-height: 98%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 2rem;
 }
 
-.lightbox-content img {
-    max-width: 98vw;
-    max-height: 95vh;
-    width: auto;
-    height: auto;
-    object-fit: contain;
+/* Wrapper d'image avec ratio d'aspect fixe pour format homogène (3:2 vertical) */
+.lightbox-image-wrapper {
+    position: relative;
+    width: 40vw; /* Ratio 3:2 vertical, encore plus réduit pour avoir de l'espace en haut et en bas */
+    height: 60vw; /* 40vw * 1.5 = 60vw pour ratio 3:2 */
+    max-width: 40vw;
+    max-height: 60vw;
+    min-width: 40vw;
+    min-height: 60vw;
     border-radius: 1rem;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.5);
+}
+
+/* Si la hauteur de l'écran est limitante, utiliser la hauteur comme référence */
+@media (max-height: 900px) {
+    .lightbox-image-wrapper {
+        width: 53.33vh; /* Ratio 3:2 vertical, encore plus réduit pour avoir de l'espace en haut et en bas */
+        height: 80vh; /* 53.33vh * 1.5 = 80vh pour ratio 3:2 */
+        max-width: 53.33vh;
+        max-height: 80vh;
+        min-width: 53.33vh;
+        min-height: 80vh;
+    }
+}
+
+.lightbox-image-wrapper img,
+.lightbox-content img,
+#lightbox-image {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    min-width: 100% !important;
+    min-height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    display: block;
 }
 
 .lightbox-caption {
@@ -1281,6 +1420,7 @@ body {
          z-index: 1000;
          border-top: .1rem solid rgba(0, 0, 0, .3);
         padding: 2rem 0;
+         transition: top 0.3s ease;
      }
 
      .header .navbar ul {
@@ -1530,23 +1670,61 @@ body {
         right: 1rem;
     }
 
-    .lightbox-content img {
-        max-width: 98vw;
-        max-height: 92vh;
+    .lightbox-content {
+        padding: 1.5rem;
+    }
+
+    .lightbox-image-wrapper {
+        width: 40vw; /* Même taille que desktop pour cohérence */
+        height: 60vw; /* 40vw * 1.5 = 60vw pour ratio 3:2 */
+        max-width: 40vw;
+        max-height: 60vw;
+        min-width: 40vw;
+        min-height: 60vw;
+    }
+
+    /* Sur mobile, si la hauteur est limitante, utiliser la hauteur comme référence */
+    @media (max-height: 800px) {
+        .lightbox-image-wrapper {
+            width: 50vh; /* Ratio 3:2 vertical, réduit pour avoir de l'espace en haut et en bas */
+            height: 75vh; /* 50vh * 1.5 = 75vh pour ratio 3:2 */
+            max-width: 50vh;
+            max-height: 75vh;
+            min-width: 50vh;
+            min-height: 75vh;
+        }
+    }
+
+    .lightbox-image-wrapper img,
+    .lightbox-content img,
+    #lightbox-image {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
+        min-width: 100% !important;
+        min-height: 100% !important;
+    }
+
+    .lightbox-caption {
+        margin-top: 1.5rem;
+        padding: 0 1rem;
     }
 
     .lightbox-caption #lightbox-plant-name {
-        font-size: 2rem;
+        font-size: 2.2rem;
+        font-weight: 600;
     }
 
     .lightbox-caption #lightbox-counter {
-        font-size: 1.4rem;
+        font-size: 1.5rem;
+        opacity: 0.9;
     }
 }
 
-/* footer query start  */
+ /* footer query start  */
 
-@media (max-width:550px) {
+ @media (max-width:550px) {
     .footer {
         flex-flow: column;
         text-align: center;
@@ -1562,6 +1740,68 @@ body {
 
     .footer .icons {
         padding: 1rem 0;
+    }
+
+    /* Réalisations carousel media query */
+    .team {
+        padding: 2rem 0 4rem 0; /* Réduire le padding-bottom sur mobile */
+        min-height: auto; /* Permettre à la section de s'adapter au contenu */
+    }
+
+    .realisations-container {
+        padding: 0 2rem;
+        margin-bottom: 2rem; /* Espace avant le bouton */
+    }
+
+    .realisations-track {
+        padding: 0;
+        margin: 0;
+    }
+
+    .team .card {
+        min-width: 100%;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .team .card .images {
+        padding-top: 80%; /* Plus grand sur mobile pour prendre plus d'écran */
+    }
+
+    .carousel-btn {
+        width: 4rem;
+        height: 4rem;
+        font-size: 1.5rem;
+    }
+
+    .carousel-btn-left {
+        left: 0.5rem;
+    }
+
+    .carousel-btn-right {
+        right: 0.5rem;
+    }
+
+    .team .card .info h2 {
+        font-size: 1.8rem;
+    }
+
+    .team .card .info p {
+        font-size: 1.6rem;
+    }
+
+    /* Bouton scroll-down positionné juste en dessous des réalisations */
+    .team .scroll-down-btn {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        transform: none;
+        margin: 2rem auto 0;
+        display: block;
+    }
+
+    .team .scroll-down-btn:hover {
+        transform: translateY(-0.5rem);
     }
 }
  
